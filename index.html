@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <script>
+    function loginFormSubmit() {
+      // 收集表單資料
+      var username = document.getElementById('userid').value;
+      var password = document.getElementById('pwd').value;
+
+      // 使用 Fetch API 發送 POST 請求
+      fetch('http://192.168.1.155/serverIndex', {  // 替換成你的 ESP32 IP 地址
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `userid=${username}&pwd=${password}`
+      })
+      .then(response => response.text())  // 假設返回的是 HTML
+      .then(data => {
+        console.log('Success:', data);
+        document.body.innerHTML = data;  // 顯示伺服器返回的內容
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</head>
+<body>
+
+<form onsubmit="event.preventDefault(); loginFormSubmit();">
+  <table width="20%" bgcolor="A09F9F" align="center">
+    <tr>
+      <td colspan=2>
+        <center><font size=4><b>ESP32 Login Page</b></font></center>
+      </td>
+    </tr>
+    <tr>
+      <td>Username:</td>
+      <td><input type="text" size="25" name="userid" id="userid"></td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td><input type="password" size="25" name="pwd" id="pwd"></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Login"></td>
+    </tr>
+  </table>
+</form>
+
+</body>
+</html>
